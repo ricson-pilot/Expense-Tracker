@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ExpenseBoxContainer from './ExpenseBoxContainer';
 import './Styles/Home.css';
 import incomeIcon from './Images/income_icon.png';
@@ -9,22 +9,112 @@ import Popup from './InputPopup';
 import UserProfile from './UserProfile';
 import RecentTransactions from './RecentTransactions';
 import IncomePopup from './IncomePopup'; // Import the IncomePopup component
+import axios from 'axios';
 
 const Home = () => {
   const location = useLocation();
-  const { email } = location.state || {};
+  const navigate = useNavigate();
+  const { email, expenseLimitTemporaryVariable } = location.state || {};
+
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [incomePopup, setIncomePopup] = useState(false);
-  const [income, setIncome] = useState(10000);
+  const [expenseLimit, setExpenseLimit] = useState(expenseLimitTemporaryVariable);
+  const [transactionsData, setTransactionsData] = useState([]);
+  const [expense, setExpense] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCurrentMonthExpenses = async () => {
+      try {
+        const token = localStorage.getItem("jwtToken");
+        console.log("Token is: ", token);
+
+        if (!token) {
+          throw new Error("No JWT token found in localStorage");
+        }
+
+        const response = await axios.get(
+          "http://localhost:8080/api/v1/expenses/current-month-expenses",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the JWT token in the request header
+            },
+          }
+        );
+
+        console.log("API Response:", response.data);
+        let filteredData;
+        if (selectedCategory === "All") {
+          // If category is "All", keep all the data
+          filteredData = response.data;
+        } else {
+          // Otherwise, filter the data to include only matching categories
+          filteredData = response.data.filter(
+            (transaction) => transaction.category === selectedCategory
+          );
+        }
+        setTransactionsData(filteredData);
+      } catch (err) {
+        console.error("Error fetching current month expenses:", err);
+        setError(err.message || "An error occurred while fetching data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCurrentMonthExpenses();
+
+  }, [selectedCategory, showPopup]); // Re-run the effect when selectedCategory changes
+
+
+  useEffect(()=>{
+    // code to change expense ecah time the amount changes
+    const fetchMonthTotal = async () => {
+      try {
+        // Get the JWT token from localStorage
+        const token = localStorage.getItem("jwtToken");
+
+        if (!token) {
+          throw new Error("No JWT token found in localStorage");
+        }
+
+        // Make the API call to the backend
+        const response = await axios.get(
+          "http://localhost:8080/api/v1/expenses/month-total",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the JWT token in the request header
+            },
+          }
+        );
+
+        // Extract the "month-total" value from the response
+        const total = response.data["month-total"];
+
+        // Set the month total to the state
+        setExpense(total);
+      } catch (err) {
+        console.error("Error fetching month total expenses:", err);
+        setError(err.message || "An error occurred while fetching data.");
+      } finally {
+        setLoading(false); // Set loading to false after the request completes
+      }
+    };
+    // Call the function to fetch data
+    fetchMonthTotal();
+
+  },[showPopup]);
 
   const handleLogout = () => {
+    localStorage.removeItem('jwtToken');
     console.log('User logged out');
+    navigate('/login');
+
     // Add your logout logic here
   };
 
   const handleIncomeSubmit = async (newIncome) => {
-    setIncome(newIncome); // Update the income in the state
 
     // Make an API call to update the income in the backend
     try {
@@ -42,24 +132,16 @@ const Home = () => {
 
       const data = await response.json();
       console.log('Income updated successfully:', data);
+      setExpenseLimit(newIncome);
     } catch (error) {
       console.error('Error updating income:', error);
     }
   };
 
   const details = [
-    { icon: incomeIcon, categoryName: 'Income', amount: income },
-    { icon: expenseIcon, categoryName: 'Expense', amount: '800' },
-    { icon: expenseIcon, categoryName: 'Avl. Balance', amount: '1200' },
-  ];
-
-  const transactionsData = [
-    { date: '2023-10-01', category: 'Food', amount: 500 },
-    { date: '2023-10-02', category: 'Transport', amount: 1200 },
-    { date: '2023-10-03', category: 'Shopping', amount: 800 },
-    { date: '2023-10-04', category: 'Entertainment', amount: 300 },
-    { date: '2023-10-05', category: 'Utilities', amount: 500 },
-    { date: '2023-10-06', category: 'Healthcare', amount: 700 },
+    { icon: incomeIcon, categoryName: 'Income', amount: expenseLimit },
+    { icon: expenseIcon, categoryName: 'Expense', amount: expense?? 0 },
+    { icon: expenseIcon, categoryName: 'Avl. Balance', amount: (expenseLimit-expense) ?? 0 }
   ];
 
   const handleTileClick = (categoryName) => {
@@ -67,12 +149,20 @@ const Home = () => {
     console.log('Selected Category in Home:', categoryName); // Log the selected category
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className="main-page">
       <header className="top-bar">
         <div>
-          <h1>Expense Tracker</h1>
           <h1>Hello {email}</h1>
+          <h1>Wallet Watch</h1>
         </div>
         <UserProfile userName="ricson jawahar1234656" onLogout={handleLogout} onIncomeClick={() => setIncomePopup(true)} />
       </header>
@@ -88,10 +178,10 @@ const Home = () => {
           ))}
         </div>
 
-        <ExpenseBoxContainer onTileClick={handleTileClick} />
-        {selectedCategory && <p>You selected: {selectedCategory}</p>}
+        <ExpenseBoxContainer onTileClick={handleTileClick} reRender={showPopup} />
+        {/* {selectedCategory && <p>You selected: {selectedCategory}</p>} */}
 
-        <RecentTransactions transactions={transactionsData} />
+        <RecentTransactions transactions={transactionsData} selectedCategory={selectedCategory}/>
 
         {showPopup && <Popup onClose={() => setShowPopup(false)} userEmail={email} />}
         {incomePopup && (

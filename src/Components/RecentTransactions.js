@@ -1,10 +1,10 @@
 import React from 'react';
 import './Styles/RecentTransactions.css';
 
-const RecentTransactions = ({ transactions }) => {
+const RecentTransactions = ({ transactions, selectedCategory }) => {
   return (
     <div className="recent-transactions">
-      <h2 className="section-title">Recent Transactions</h2>
+      <h2 className="section-title">Recent Transactions({selectedCategory})</h2>
       <div className="transactions-list">
         {transactions.map((transaction, index) => (
           <div key={index} className="transaction-item">

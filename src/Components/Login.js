@@ -3,7 +3,6 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import './Styles/Login.css';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Login = ({ setUserEmail }) => {
   const [email, setEmail] = useState('');
@@ -46,8 +45,8 @@ const Login = ({ setUserEmail }) => {
     console.log('Password:', password);
   
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/users/login?user_id=1&password=${password}`, {
-        method: 'GET',
+      const response = await fetch(`http://localhost:8080/api/v1/users/login?email=${encodeURIComponent(email)}&password=${password}`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         }
@@ -64,11 +63,11 @@ const Login = ({ setUserEmail }) => {
   
       const data = await response.json();
       console.log('positive: Response:', data);
-  
+      const expenseLimitTemporaryVariable = data.expenseLimit;                   // Change expense limit here when working on home ok???
       // Store the JWT token in localStorage
       localStorage.setItem('jwtToken', data.token);
-  
-      navigate('/home', { state: { email } });
+
+      navigate('/home', { state: { email, expenseLimitTemporaryVariable } });
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred. Please try again.');
