@@ -1,0 +1,61 @@
+.main-page {
+  display: flex;
+  flex-direction: column;
+  /* height: 100vh; */
+}
+
+.top-bar {
+  width: 100%;
+  background-color: #f4f4f4;
+  padding: 10px; /* Reduced height */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1; /* Ensure top-bar stays on top */
+  position: fixed; /* Fix the top-bar at the top */
+  top: 0;
+}
+
+.top-bar h1 {
+  font-size: 20px; /* Adjusted font size */
+  margin: 0;
+}
+
+.content {
+  flex: 1;
+  padding: 20px 40px 10px;
+  padding-top: 80px; /* Adjusted padding to account for fixed top-bar */
+  width: 75%; /* Adjust this value as needed */
+  margin: 0 auto;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.details-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+  padding-top: 20px; /* Add padding to ensure it doesn't overlap with the top-bar */
+}
+
+.add-expense-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.add-expense-button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}

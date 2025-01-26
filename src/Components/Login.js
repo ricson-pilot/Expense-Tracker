@@ -3,6 +3,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import './Styles/Login.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = ({ setUserEmail }) => {
   const [email, setEmail] = useState('');
@@ -24,13 +25,54 @@ const Login = ({ setUserEmail }) => {
     console.log('Login Failed');
   };
 
-  const handleLogin = () => {
+  // const handleLogin = async () => {
+  //   console.log('Email:', email);
+  //   console.log('Password:', password);
+
+  //   try {
+  //     const response = await axios.get('http://localhost:8080/api/v1/users/login', {
+  //       user_id: 1,
+  //       password: password
+  //     });
+  //     console.log('positive: Response:', response.data);
+  //     navigate('/home', { state: { email } });
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+
+  const handleLogin = async () => {
     console.log('Email:', email);
     console.log('Password:', password);
-
-    
-    navigate('/home', { state: { email } });
-    // Further processing like sending the email and password to the server, etc.
+  
+    try {
+      const response = await fetch(`http://localhost:8080/api/v1/users/login?user_id=1&password=${password}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (response.status === 401) {
+        alert('Password does not match. Please try again.');
+        return;
+      }
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log('positive: Response:', data);
+  
+      // Store the JWT token in localStorage
+      localStorage.setItem('jwtToken', data.token);
+  
+      navigate('/home', { state: { email } });
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   return (

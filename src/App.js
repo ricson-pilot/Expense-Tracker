@@ -7,10 +7,7 @@ import Signup from './Components/Signup';
 import HomePage from './Components/HomePage';
 
 function App() {
-  const [transactions, setTransactions] = useState([]);
   const [userEmail, setUserEmail] = useState('');
-
-  
 
   return (
     <GoogleOAuthProvider clientId="813992224170-iqfu37dp06v4hq93459fr2f4b4sleqc6.apps.googleusercontent.com">

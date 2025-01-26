@@ -1,0 +1,43 @@
+.expense-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 150px;
+    height: 50px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 10px;
+  }
+  
+  .icon-category {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+  
+  .category-name {
+    font-size: 14px;
+    margin: 0;
+    color: #333;
+  }
+  
+  .amount-container {
+    margin-top: 12px;
+    width: 100%;
+  }
+  
+  .amount {
+    font-size: 20px;
+    color: #777;
+    margin: 0;
+  }

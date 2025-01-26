@@ -1,0 +1,64 @@
+.recent-transactions {
+  width: 100%;
+  max-width: 600px; /* Adjust the max-width as needed */
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #e0e0e0; /* Light gray border */
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.section-title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 16px;
+  font-weight: 600; /* Bold title */
+}
+
+.transactions-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 12px; /* Space between transactions */
+  max-height: 180px; /* Height for three rows (3 rows * 60px per row) */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 8px; /* Add padding to avoid overlap with scrollbar */
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #e0e0e0; /* Light gray border */
+  border-radius: 6px;
+  background-color: #fafafa; /* Light background */
+  transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+.transaction-item:hover {
+  background-color: #f0f0f0; /* Slightly darker on hover */
+}
+
+.transaction-info {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between date and category */
+}
+
+.transaction-date {
+  font-size: 12px; /* Small font size for date */
+  color: #777;
+}
+
+.transaction-category {
+  font-size: 12px; /* Small font size for category */
+  color: #333;
+  font-weight: 500; /* Medium font weight */
+}
+
+.transaction-amount {
+  font-size: 16px; /* Large font size for amount */
+  color: #333;
+  font-weight: 600; /* Bold amount */
+}
