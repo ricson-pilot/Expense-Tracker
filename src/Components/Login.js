@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import './Styles/Login.css';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from './apiConfig';
 
 const Login = ({ setUserEmail }) => {
   const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const Login = ({ setUserEmail }) => {
         try {
           // Make a POST request to validate the token
           const response = await axios.post(
-            'http://localhost:8080/validate-token', // Replace with your backend URL
+            `${API_BASE_URL}/users/validate-token`, // Replace with your backend URL
             {}, // No body is needed for this request
             {
               headers: {
@@ -29,12 +30,17 @@ const Login = ({ setUserEmail }) => {
 
           // If the token is valid, navigate to /home
           if (response.status === 200) {
-            navigate('/home', { state: response.data }); // Pass the response data as state
+            console.log("Login by token okkkk");
+            const { token, name, email } = response.data;
+            const expenseLimitTemporaryVariable = response.data.expenseLimit;
+            console.log(response.data);
+            navigate('/home', { state: { email, name, expenseLimitTemporaryVariable } });   
+           localStorage.setItem('jwtToken', token);
           }
         } catch (error) {
           // Handle errors (e.g., token expired or invalid)
           //console.error('Token validation failed:', error.response?.data?.error || error.message);
-          console.log(error);
+          console.log("Error while validating toke: -> ",error);
 
           // Clear the invalid token from localStorage
           //localStorage.removeItem('jwtToken');          // Uncoment once you are sure of your code
@@ -43,6 +49,7 @@ const Login = ({ setUserEmail }) => {
           //navigate('/login', { state: { error: 'Session expired. Please log in again.' } });
         }
       } else {
+        console.log("No token is found");
         // If no token is found, redirect to the login page
         navigate('/login');
       }
@@ -51,16 +58,34 @@ const Login = ({ setUserEmail }) => {
     validateToken();
   }, [navigate]);
 
-  const handleSuccess = (response) => {
+  const handleSuccess = async (response) => {
     const decoded = jwtDecode(response.credential);
     const email = decoded.email;
     console.log('Login Success:', response);
     console.log('Email:', email);
     setUserEmail(email);
-    
-    navigate('/home', { state: { email } });
-    // Further processing like sending the token to the server, etc.
-  };
+
+    try {
+        // Make a POST request to your backend
+        const backendResponse = await axios.post(
+          `${API_BASE_URL}/users/google-login?email=${email}`
+        );
+
+        // Extract data from the backend response
+        const { token, name, expenseLimit } = backendResponse.data; 
+        const expenseLimitTemporaryVariable = expenseLimit;
+        // const expenseLimitTemporaryVariable = data.expenseLimit;  
+
+        // Store the token in local storage or state
+        localStorage.setItem('jwtToken', token);
+
+        // Navigate to the home page with additional state
+        navigate('/home', { state: { email, name, expenseLimitTemporaryVariable } });
+    } catch (error) {
+        console.error('Error logging in with Google:', error);
+        // Handle error appropriately
+    }
+};
 
   const handleError = () => {
     console.log('Login Failed');
@@ -71,7 +96,7 @@ const Login = ({ setUserEmail }) => {
     console.log('Password:', password);
   
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/users/login?email=${encodeURIComponent(email)}&password=${password}`, {
+      const response = await fetch(`${API_BASE_URL}/users/login?email=${encodeURIComponent(email)}&password=${password}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -89,11 +114,12 @@ const Login = ({ setUserEmail }) => {
   
       const data = await response.json();
       console.log('positive: Response:', data);
-      const expenseLimitTemporaryVariable = data.expenseLimit;                   // Change expense limit here when working on home ok???
+      const expenseLimitTemporaryVariable = data.expenseLimit; 
+      const name = data.name;                  // Change expense limit here when working on home ok???
       // Store the JWT token in localStorage
       localStorage.setItem('jwtToken', data.token);
 
-      navigate('/home', { state: { email, expenseLimitTemporaryVariable } });
+      navigate('/home', { state: { email, expenseLimitTemporaryVariable, name } });
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred. Please try again.');

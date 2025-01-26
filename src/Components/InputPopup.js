@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Styles/InputPopup.css';
+import { toast } from 'react-toastify';
+import API_BASE_URL from './apiConfig';
 
 const Popup = ({ onClose, userEmail }) => {
   const [file, setFile] = useState(null);
@@ -22,7 +24,7 @@ const Popup = ({ onClose, userEmail }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/v1/expenses/add?categoryName=${encodeURIComponent(category
+        `${API_BASE_URL}/expenses/add?categoryName=${encodeURIComponent(category
         )}&amount=${encodeURIComponent(
           amount
         )}&transactionDate=${encodeURIComponent(date)}`,
@@ -39,6 +41,7 @@ const Popup = ({ onClose, userEmail }) => {
         const result = await response.json();
         alert('Expense added successfully!');
         console.log(result);
+        // toast.success(result);
       } else {
         const error = await response.text();
         alert(`Error: ${error}`);
@@ -64,7 +67,7 @@ const Popup = ({ onClose, userEmail }) => {
   
     try {
       // Send the request to the backend
-      const response = await fetch('http://localhost:8080/api/v1/expenses/upload-csv', {
+      const response = await fetch(`${API_BASE_URL}/expenses/upload-csv`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -75,7 +78,9 @@ const Popup = ({ onClose, userEmail }) => {
       // Handle the response
       if (response.ok) {
         const result = await response.text();
-        alert(result); // Display success message
+        console.log(result);
+        alert("File upload Success!!!")
+        //toast.success(result); // Display success message
       } else {
         const error = await response.text();
         alert(`Error: ${error}`); // Display error message

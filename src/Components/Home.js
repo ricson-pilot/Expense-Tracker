@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ExpenseBoxContainer from './ExpenseBoxContainer';
 import './Styles/Home.css';
+import API_BASE_URL from './apiConfig';
 import incomeIcon from './Images/income_icon.png';
 import expenseIcon from './Images/expense_icon.png';
 import DetailsBox from './DetailsBox';
@@ -14,7 +15,7 @@ import axios from 'axios';
 const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { email, expenseLimitTemporaryVariable } = location.state || {};
+  const { email, expenseLimitTemporaryVariable, name } = location.state || {};
 
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -36,7 +37,7 @@ const Home = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:8080/api/v1/expenses/current-month-expenses",
+          `${API_BASE_URL}/expenses/current-month-expenses`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the JWT token in the request header
@@ -81,7 +82,7 @@ const Home = () => {
 
         // Make the API call to the backend
         const response = await axios.get(
-          "http://localhost:8080/api/v1/expenses/month-total",
+          `${API_BASE_URL}/expenses/month-total`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the JWT token in the request header
@@ -116,7 +117,7 @@ const Home = () => {
 
   const handleIncomeSubmit = async (newIncome) => {
 
-    // Make an API call to update the income in the backend
+    // Make an API call to update the income in the backend       // ------------------ Not done......
     try {
       const response = await fetch('/api/update-income', {
         method: 'POST',
@@ -139,9 +140,9 @@ const Home = () => {
   };
 
   const details = [
-    { icon: incomeIcon, categoryName: 'Income', amount: expenseLimit },
-    { icon: expenseIcon, categoryName: 'Expense', amount: expense?? 0 },
-    { icon: expenseIcon, categoryName: 'Avl. Balance', amount: (expenseLimit-expense) ?? 0 }
+    { icon: incomeIcon, categoryName: 'Income', amount: (expenseLimit ?? 0).toFixed(2) },
+    { icon: expenseIcon, categoryName: 'Expense', amount: (expense ?? 0).toFixed(2) },
+    { icon: expenseIcon, categoryName: 'Avl. Balance', amount: ((expenseLimit - expense) ?? 0).toFixed(2) }
   ];
 
   const handleTileClick = (categoryName) => {
@@ -161,7 +162,7 @@ const Home = () => {
     <div className="main-page">
       <header className="top-bar">
         <div>
-          <h1>Hello {email}</h1>
+          <h1>Hello {name}</h1>
           <h1>Wallet Watch</h1>
         </div>
         <UserProfile userName={email} onLogout={handleLogout} onIncomeClick={() => setIncomePopup(true)} />

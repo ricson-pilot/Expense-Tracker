@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Styles/Signup.css';
+import API_BASE_URL from './apiConfig';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -25,7 +26,7 @@ const Signup = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/users', userData);
+      const response = await axios.post(`${API_BASE_URL}/users/signup`, userData);
       console.log('Response:', response.data);
       alert('Account created successfully...');
       navigate('/login');

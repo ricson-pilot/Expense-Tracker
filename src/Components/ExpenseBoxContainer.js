@@ -10,6 +10,7 @@ import healthcareIcon from './Images/healthcare_icon.png';
 import educationIcon from './Images/education_icon.png';
 import miscellaneousIcon from './Images/miscellaneous_icon.png';
 import axios from 'axios';
+import API_BASE_URL from './apiConfig';
 
 const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
 
@@ -28,7 +29,7 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
 
         // Make the API call to the backend
         const response = await axios.get(
-          "http://localhost:8080/api/v1/expenses/currentMonth-categoryWise",
+          `${API_BASE_URL}/expenses/currentMonth-categoryWise`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the JWT token in the request header
@@ -88,7 +89,7 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
       return {
         icon: icons[index], // Use the corresponding icon
         categoryName: categories[index], // Use the formatted category name
-        amount: amount // Use the amount from the backend
+        amount: amount.toFixed(2) // Use the amount from the backend
       };
     });
   };
@@ -97,10 +98,6 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
   const expenses = transformExpenses(categoryWiseExpenses, categories, icons);
   
   console.log(expenses);
-  
-
-  
-
 
   return (
     
