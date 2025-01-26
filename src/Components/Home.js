@@ -164,7 +164,7 @@ const Home = () => {
           <h1>Hello {email}</h1>
           <h1>Wallet Watch</h1>
         </div>
-        <UserProfile userName="ricson jawahar1234656" onLogout={handleLogout} onIncomeClick={() => setIncomePopup(true)} />
+        <UserProfile userName={email} onLogout={handleLogout} onIncomeClick={() => setIncomePopup(true)} />
       </header>
       <main className="content">
         <div className="details-container">

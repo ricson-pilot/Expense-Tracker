@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     position: relative;
+    margin-right: 20px;
   }
   
   .user-icon {
@@ -21,7 +22,7 @@
   
   .dropdown-arrow {
     background: none;
-    /* border: none; */
+    border: none;
     cursor: pointer;
     font-size: 16px;
   }

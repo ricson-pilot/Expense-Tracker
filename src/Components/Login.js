@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 import './Styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +9,47 @@ const Login = ({ setUserEmail }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const validateToken = async () => {
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        try {
+          // Make a POST request to validate the token
+          const response = await axios.post(
+            'http://localhost:8080/validate-token', // Replace with your backend URL
+            {}, // No body is needed for this request
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Include the JWT token in the header
+              },
+            }
+          );
+
+          // If the token is valid, navigate to /home
+          if (response.status === 200) {
+            navigate('/home', { state: response.data }); // Pass the response data as state
+          }
+        } catch (error) {
+          // Handle errors (e.g., token expired or invalid)
+          //console.error('Token validation failed:', error.response?.data?.error || error.message);
+          console.log(error);
+
+          // Clear the invalid token from localStorage
+          //localStorage.removeItem('jwtToken');          // Uncoment once you are sure of your code
+
+          // Redirect to the login page or show an error message
+          //navigate('/login', { state: { error: 'Session expired. Please log in again.' } });
+        }
+      } else {
+        // If no token is found, redirect to the login page
+        navigate('/login');
+      }
+    };
+
+    validateToken();
+  }, [navigate]);
 
   const handleSuccess = (response) => {
     const decoded = jwtDecode(response.credential);
@@ -23,22 +65,6 @@ const Login = ({ setUserEmail }) => {
   const handleError = () => {
     console.log('Login Failed');
   };
-
-  // const handleLogin = async () => {
-  //   console.log('Email:', email);
-  //   console.log('Password:', password);
-
-  //   try {
-  //     const response = await axios.get('http://localhost:8080/api/v1/users/login', {
-  //       user_id: 1,
-  //       password: password
-  //     });
-  //     console.log('positive: Response:', response.data);
-  //     navigate('/home', { state: { email } });
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // };
 
   const handleLogin = async () => {
     console.log('Email:', email);
@@ -95,7 +121,11 @@ const Login = ({ setUserEmail }) => {
       <p>Don't have an account? <a href="/signup">Signup</a></p>
       <hr className="separator" />
       <p>or</p>
-      <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+      <GoogleLogin onSuccess={handleSuccess} onError={handleError} 
+        clientId = "813992224170-iqfu37dp06v4hq93459fr2f4b4sleqc6.apps.googleusercontent.com"
+        buttonText="Login with Google"
+        cookiePolicy="single_host_origin"
+      />
     </div>
   );
 };

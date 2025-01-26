@@ -1,4 +1,4 @@
-.popup {
+.popup-popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,75 +11,77 @@
   z-index: 1000;
 }
 
-.popup-content {
+.popup-content-popup {
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 600px;
+  width: 500px;
   max-width: 90%;
 }
 
-.popup-content h2 {
+.popup-content-popup h2 {
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 24px;
   text-align: center;
 }
 
-.form-container {
+.form-container-popup {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.left-form, .right-form {
+.left-form-popup,
+.right-form-popup {
   width: 45%;
 }
 
-.form-group {
+.form-group-popup {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.form-group-popup label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.form-group input {
+.form-group-popup input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.form-actions {
+.form-actions-popup {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.submit-button, .close-button {
+.submit-button-popup,
+.close-button-popup {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.submit-button {
-  background-color: #4CAF50;
+.submit-button-popup {
+  background-color: #4caf50;
   color: white;
 }
 
-.close-button {
+.close-button-popup {
   background-color: #f44336;
   color: white;
   width: 100%;
   margin-top: 20px;
 }
 
-.vertical-line {
+.vertical-line-popup {
   width: 1px;
   background-color: #ccc;
   height: 100%;

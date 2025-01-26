@@ -36,8 +36,20 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
           }
         );
 
+        const categoriesForNewUser = {
+          Utilities: 0,
+          Education: 0,
+          Groceries: 0,
+          Healthcare: 0,
+          Miscellaneous: 0,
+          Transport: 0,
+          Entertainment: 0,
+          Food: 0,
+        };
+
         // Set the fetched data to state
-        setCategoryWiseExpenses(response.data);
+        const NormalisedMergedDate = { ...categoriesForNewUser, ...response.data }
+        setCategoryWiseExpenses(NormalisedMergedDate);
         console.log("For card total by category: ",categoryWiseExpenses);
       } catch (err) {
         console.error("Error fetching category-wise expenses:", err);
@@ -63,6 +75,7 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
   // const expenses = generateExpenses(categories, amounts, foodIcon);
 
 
+  console.log("=========For card total by category: ",categoryWiseExpenses);
   const categories = ['Food', 'Transport', 'Entertainment', 'Groceries', 'Utilities', 'Healthcare', 'Education', 'Miscellaneous'];
   const icons = [foodIcon, transportIcon, entertainmentIcon, groceriesIcon, utilitiesIcon, healthcareIcon, educationIcon, miscellaneousIcon];
 

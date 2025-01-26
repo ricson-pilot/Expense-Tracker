@@ -7,24 +7,23 @@ const Popup = ({ onClose, userEmail }) => {
 
   const handleSubmitLeft = async (e) => {
     e.preventDefault();
-  
+
     const form = e.target;
     const amount = form.amount.value;
     const category = form.category.value;
     const date = form.date.value;
-  
+
     // Retrieve the JWT token from localStorage
     const jwtToken = localStorage.getItem('jwtToken');
     if (!jwtToken) {
       alert('You are not authenticated. Please log in.');
       return;
     }
-  
+
     try {
       const response = await fetch(
-        `http://localhost:8080/api/v1/expenses/add?email=${encodeURIComponent(
-          'ricson'
-        )}&categoryName=${encodeURIComponent(category)}&amount=${encodeURIComponent(
+        `http://localhost:8080/api/v1/expenses/add?categoryName=${encodeURIComponent(category
+        )}&amount=${encodeURIComponent(
           amount
         )}&transactionDate=${encodeURIComponent(date)}`,
         {
@@ -35,7 +34,7 @@ const Popup = ({ onClose, userEmail }) => {
           },
         }
       );
-  
+
       if (response.ok) {
         const result = await response.json();
         alert('Expense added successfully!');
@@ -51,57 +50,53 @@ const Popup = ({ onClose, userEmail }) => {
   };
 
   const handleSubmitRight = async (e) => {
-  e.preventDefault();
-
-  // Check if a file is selected
-  if (!file) {
-    alert('Please select a file to upload.');
-    return;
-  }
-
-  // Create FormData object
-  const formData = new FormData();
-  formData.append('file', file); // Append the file
-  formData.append('userEmail', 'ricson'); // Append the userEmail (replace with dynamic value if needed)
-
-  // Log FormData for debugging
-  console.log('FormData:', formData);
-  console.log('userEmail:', formData.get('userEmail')); // Correct way to log FormData values
-
-  try {
-    // Send the request to the backend
-    const response = await fetch('http://localhost:8080/api/v1/expenses/upload-csv', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`, // Add the JWT token here
-      }, // FormData will automatically set the Content-Type header
-    });
-
-    // Handle the response
-    if (response.ok) {
-      const result = await response.text();
-    } else {
-      const error = await response.text();
-      alert(`Error: ${error}`); // Show error message from the backend
+    e.preventDefault();
+  
+    // Check if a file is selected
+    if (!file) {
+      alert('Please select a file to upload.');
+      return;
     }
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    alert('An unexpected error occurred. Please try again.'); // Show generic error message
-  }
-};
+  
+    // Create FormData object
+    const formData = new FormData();
+    formData.append('file', file); // Append the file
+  
+    try {
+      // Send the request to the backend
+      const response = await fetch('http://localhost:8080/api/v1/expenses/upload-csv', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`, // Add the JWT token here
+        },
+      });
+  
+      // Handle the response
+      if (response.ok) {
+        const result = await response.text();
+        alert(result); // Display success message
+      } else {
+        const error = await response.text();
+        alert(`Error: ${error}`); // Display error message
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('An unexpected error occurred. Please try again.');
+    }
+  };
 
   return (
-    <div className="popup">
-      <div className="popup-content">
+    <div className="popup-popup">
+      <div className="popup-content-popup">
         <h2>Add Expense</h2>
-        <div className="form-container">
-          <form className="left-form" onSubmit={handleSubmitLeft}>
-            <div className="form-group">
+        <div className="form-container-popup">
+          <form className="left-form-popup" onSubmit={handleSubmitLeft}>
+            <div className="form-group-popup">
               <label>Amount:</label>
               <input type="number" name="amount" required />
             </div>
-            <div className="form-group">
+            <div className="form-group-popup">
               <label>Category:</label>
               <select name="category" required>
                 {categories.map((category, index) => (
@@ -111,19 +106,19 @@ const Popup = ({ onClose, userEmail }) => {
                 ))}
               </select>
             </div>
-            <div className="form-group">
+            <div className="form-group-popup">
               <label>Date:</label>
               <input type="date" name="date" required />
             </div>
-            <div className="form-actions">
-              <button type="submit" className="submit-button">
+            <div className="form-actions-popup">
+              <button type="submit" className="submit-button-popup">
                 Submit
               </button>
             </div>
           </form>
-          <div className="vertical-line"></div>
-          <form className="right-form" onSubmit={handleSubmitRight}>
-            <div className="form-group">
+          <div className="vertical-line-popup"></div>
+          <form className="right-form-popup" onSubmit={handleSubmitRight}>
+            <div className="form-group-popup">
               <label>Upload File:</label>
               <input
                 type="file"
@@ -132,15 +127,15 @@ const Popup = ({ onClose, userEmail }) => {
                 onChange={(e) => setFile(e.target.files[0])}
               />
             </div>
-            <div className="form-actions">
-              <button type="submit" className="submit-button">
+            <div className="form-actions-popup">
+              <button type="submit" className="submit-button-popup">
                 Submit
               </button>
             </div>
           </form>
         </div>
-        <div className="form-actions">
-          <button type="button" className="close-button" onClick={onClose}>
+        <div className="form-actions-popup">
+          <button type="button" className="close-button-popup" onClick={onClose}>
             Cancel
           </button>
         </div>
