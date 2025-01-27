@@ -11,7 +11,7 @@ import educationIcon from './Images/education_icon.png';
 import miscellaneousIcon from './Images/miscellaneous_icon.png';
 import axios from 'axios';
 import API_BASE_URL from './apiConfig';
-// import ChartController from "../charts/charts";
+import ChartController from "../charts/charts";
 
 const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
 
@@ -109,7 +109,7 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
         />
       ))}
       </div>
-      {/* <ChartController/> */}
+      <ChartController/>
     </div>
   );
 };

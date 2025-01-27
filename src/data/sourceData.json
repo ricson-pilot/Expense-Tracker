@@ -1,0 +1,300 @@
+{
+  "user_id": 3,
+  "year": 2025,
+  "monthly_expenses": [
+    {
+      "month": "JANUARY",
+      "total_expenses": 500,
+      "expenses": [
+        {
+          "date": "2025-01-02",
+          "amount": 100,
+          "category": "transport",
+          "expense_id": 3
+        },
+        {
+          "date": "2025-01-05",
+          "amount": 100,
+          "category": "food",
+          "expense_id": 4
+        },
+        {
+          "date": "2025-01-02",
+          "amount": 100,
+          "category": "food",
+          "expense_id": 5
+        },
+        {
+          "date": "2025-01-06",
+          "amount": 200,
+          "category": "transport",
+          "expense_id": 6
+        }
+      ]
+    },
+    {
+      "month": "FEBRUARY",
+      "total_expenses": 300,
+      "expenses": [
+        {
+          "date": "2025-02-04",
+          "amount": 150,
+          "category": "entertainment",
+          "expense_id": 7
+        },
+        {
+          "date": "2025-02-10",
+          "amount": 100,
+          "category": "groceries",
+          "expense_id": 8
+        },
+        {
+          "date": "2025-02-20",
+          "amount": 50,
+          "category": "transport",
+          "expense_id": 9
+        }
+      ]
+    },
+    {
+      "month": "MARCH",
+      "total_expenses": 450,
+      "expenses": [
+        {
+          "date": "2025-03-03",
+          "amount": 200,
+          "category": "rent",
+          "expense_id": 10
+        },
+        {
+          "date": "2025-03-15",
+          "amount": 150,
+          "category": "food",
+          "expense_id": 11
+        },
+        {
+          "date": "2025-03-25",
+          "amount": 100,
+          "category": "utilities",
+          "expense_id": 12
+        }
+      ]
+    },
+    {
+      "month": "APRIL",
+      "total_expenses": 400,
+      "expenses": [
+        {
+          "date": "2025-04-05",
+          "amount": 100,
+          "category": "shopping",
+          "expense_id": 13
+        },
+        {
+          "date": "2025-04-10",
+          "amount": 150,
+          "category": "groceries",
+          "expense_id": 14
+        },
+        {
+          "date": "2025-04-18",
+          "amount": 150,
+          "category": "entertainment",
+          "expense_id": 15
+        }
+      ]
+    },
+    {
+      "month": "MAY",
+      "total_expenses": 350,
+      "expenses": [
+        {
+          "date": "2025-05-02",
+          "amount": 100,
+          "category": "food",
+          "expense_id": 16
+        },
+        {
+          "date": "2025-05-12",
+          "amount": 100,
+          "category": "transport",
+          "expense_id": 17
+        },
+        {
+          "date": "2025-05-20",
+          "amount": 150,
+          "category": "rent",
+          "expense_id": 18
+        }
+      ]
+    },
+    {
+      "month": "JUNE",
+      "total_expenses": 500,
+      "expenses": [
+        {
+          "date": "2025-06-01",
+          "amount": 200,
+          "category": "groceries",
+          "expense_id": 19
+        },
+        {
+          "date": "2025-06-10",
+          "amount": 150,
+          "category": "entertainment",
+          "expense_id": 20
+        },
+        {
+          "date": "2025-06-19",
+          "amount": 150,
+          "category": "transport",
+          "expense_id": 21
+        }
+      ]
+    },
+    {
+      "month": "JULY",
+      "total_expenses": 450,
+      "expenses": [
+        {
+          "date": "2025-07-05",
+          "amount": 200,
+          "category": "shopping",
+          "expense_id": 22
+        },
+        {
+          "date": "2025-07-12",
+          "amount": 150,
+          "category": "utilities",
+          "expense_id": 23
+        },
+        {
+          "date": "2025-07-26",
+          "amount": 100,
+          "category": "entertainment",
+          "expense_id": 24
+        }
+      ]
+    },
+    {
+      "month": "AUGUST",
+      "total_expenses": 350,
+      "expenses": [
+        {
+          "date": "2025-08-04",
+          "amount": 200,
+          "category": "food",
+          "expense_id": 25
+        },
+        {
+          "date": "2025-08-15",
+          "amount": 100,
+          "category": "utilities",
+          "expense_id": 26
+        },
+        {
+          "date": "2025-08-28",
+          "amount": 50,
+          "category": "transport",
+          "expense_id": 27
+        }
+      ]
+    },
+    {
+      "month": "SEPTEMBER",
+      "total_expenses": 400,
+      "expenses": [
+        {
+          "date": "2025-09-07",
+          "amount": 150,
+          "category": "entertainment",
+          "expense_id": 28
+        },
+        {
+          "date": "2025-09-16",
+          "amount": 100,
+          "category": "groceries",
+          "expense_id": 29
+        },
+        {
+          "date": "2025-09-25",
+          "amount": 150,
+          "category": "shopping",
+          "expense_id": 30
+        }
+      ]
+    },
+    {
+      "month": "OCTOBER",
+      "total_expenses": 500,
+      "expenses": [
+        {
+          "date": "2025-10-02",
+          "amount": 200,
+          "category": "transport",
+          "expense_id": 31
+        },
+        {
+          "date": "2025-10-12",
+          "amount": 150,
+          "category": "food",
+          "expense_id": 32
+        },
+        {
+          "date": "2025-10-21",
+          "amount": 150,
+          "category": "utilities",
+          "expense_id": 33
+        }
+      ]
+    },
+    {
+      "month": "NOVEMBER",
+      "total_expenses": 450,
+      "expenses": [
+        {
+          "date": "2025-11-05",
+          "amount": 200,
+          "category": "rent",
+          "expense_id": 34
+        },
+        {
+          "date": "2025-11-13",
+          "amount": 100,
+          "category": "groceries",
+          "expense_id": 35
+        },
+        {
+          "date": "2025-11-27",
+          "amount": 150,
+          "category": "entertainment",
+          "expense_id": 36
+        }
+      ]
+    },
+    {
+      "month": "DECEMBER",
+      "total_expenses": 300,
+      "expenses": [
+        {
+          "date": "2025-12-03",
+          "amount": 100,
+          "category": "food",
+          "expense_id": 37
+        },
+        {
+          "date": "2025-12-14",
+          "amount": 100,
+          "category": "transport",
+          "expense_id": 38
+        },
+        {
+          "date": "2025-12-22",
+          "amount": 100,
+          "category": "shopping",
+          "expense_id": 39
+        }
+      ]
+    }
+  ]
+}

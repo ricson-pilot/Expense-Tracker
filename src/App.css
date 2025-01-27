@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+.charts{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.pie-chart{
+  height:30%;
+  width:30%;
+}
