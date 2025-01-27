@@ -20,15 +20,14 @@ const Login = ({ setUserEmail }) => {
           // Make a POST request to validate the token
           const response = await axios.post(
             `${API_BASE_URL}/users/validate-token`, // Replace with your backend URL
-            {}, // No body is needed for this request
+            {}, 
             {
               headers: {
-                Authorization: `Bearer ${token}`, // Include the JWT token in the header
+                Authorization: `Bearer ${token}`, 
               },
             }
           );
 
-          // If the token is valid, navigate to /home
           if (response.status === 200) {
             console.log("Login by token okkkk");
             const { token, name, email } = response.data;
@@ -38,19 +37,10 @@ const Login = ({ setUserEmail }) => {
            localStorage.setItem('jwtToken', token);
           }
         } catch (error) {
-          // Handle errors (e.g., token expired or invalid)
-          //console.error('Token validation failed:', error.response?.data?.error || error.message);
           console.log("Error while validating toke: -> ",error);
-
-          // Clear the invalid token from localStorage
-          //localStorage.removeItem('jwtToken');          // Uncoment once you are sure of your code
-
-          // Redirect to the login page or show an error message
-          //navigate('/login', { state: { error: 'Session expired. Please log in again.' } });
         }
       } else {
         console.log("No token is found");
-        // If no token is found, redirect to the login page
         navigate('/login');
       }
     };
@@ -63,27 +53,23 @@ const Login = ({ setUserEmail }) => {
     const email = decoded.email;
     console.log('Login Success:', response);
     console.log('Email:', email);
-    setUserEmail(email);
+    // setUserEmail(email);                       // Changed at last uncomment and comment below line if error
+    setEmail(email);
 
     try {
-        // Make a POST request to your backend
         const backendResponse = await axios.post(
           `${API_BASE_URL}/users/google-login?email=${email}`
         );
 
-        // Extract data from the backend response
         const { token, name, expenseLimit } = backendResponse.data; 
         const expenseLimitTemporaryVariable = expenseLimit;
         // const expenseLimitTemporaryVariable = data.expenseLimit;  
 
-        // Store the token in local storage or state
         localStorage.setItem('jwtToken', token);
 
-        // Navigate to the home page with additional state
         navigate('/home', { state: { email, name, expenseLimitTemporaryVariable } });
     } catch (error) {
         console.error('Error logging in with Google:', error);
-        // Handle error appropriately
     }
 };
 
@@ -116,7 +102,7 @@ const Login = ({ setUserEmail }) => {
       console.log('positive: Response:', data);
       const expenseLimitTemporaryVariable = data.expenseLimit; 
       const name = data.name;                  // Change expense limit here when working on home ok???
-      // Store the JWT token in localStorage
+     
       localStorage.setItem('jwtToken', data.token);
 
       navigate('/home', { state: { email, expenseLimitTemporaryVariable, name } });

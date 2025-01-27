@@ -11,6 +11,7 @@ import educationIcon from './Images/education_icon.png';
 import miscellaneousIcon from './Images/miscellaneous_icon.png';
 import axios from 'axios';
 import API_BASE_URL from './apiConfig';
+// import ChartController from "../charts/charts";
 
 const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
 
@@ -48,7 +49,6 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
           Food: 0,
         };
 
-        // Set the fetched data to state
         const NormalisedMergedDate = { ...categoriesForNewUser, ...response.data }
         setCategoryWiseExpenses(NormalisedMergedDate);
         console.log("For card total by category: ",categoryWiseExpenses);
@@ -57,7 +57,6 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
       } 
     };
 
-    // Call the function to fetch data
     fetchCategoryWiseExpenses();
   }, [reRender]);
 
@@ -82,19 +81,16 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
 
   const transformExpenses = (categoryWiseExpenses, categories, icons) => {
     return Object.entries(categoryWiseExpenses).map(([category, amount]) => {
-      // Find the index of the category in the `categories` array
       const index = categories.findIndex(cat => cat.toLowerCase() === category.toLowerCase());
   
-      // Return the transformed object
       return {
-        icon: icons[index], // Use the corresponding icon
-        categoryName: categories[index], // Use the formatted category name
-        amount: amount.toFixed(2) // Use the amount from the backend
+        icon: icons[index], 
+        categoryName: categories[index],
+        amount: amount.toFixed(2) 
       };
     });
   };
   
-  // Transform the data
   const expenses = transformExpenses(categoryWiseExpenses, categories, icons);
   
   console.log(expenses);
@@ -102,6 +98,7 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
   return (
     
     <div className="expense-box">
+      <div className="expenses">
       {expenses.map((expense, index) => (
         <ExpenseTile
           key={index}
@@ -111,6 +108,8 @@ const ExpenseBoxContainer = ({ onTileClick , reRender}) => {
           onClick={onTileClick}
         />
       ))}
+      </div>
+      {/* <ChartController/> */}
     </div>
   );
 };

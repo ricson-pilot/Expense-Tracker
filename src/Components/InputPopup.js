@@ -15,7 +15,6 @@ const Popup = ({ onClose, userEmail }) => {
     const category = form.category.value;
     const date = form.date.value;
 
-    // Retrieve the JWT token from localStorage
     const jwtToken = localStorage.getItem('jwtToken');
     if (!jwtToken) {
       alert('You are not authenticated. Please log in.');
@@ -49,24 +48,23 @@ const Popup = ({ onClose, userEmail }) => {
     } catch (error) {
       console.log('error: ', error);
       alert(`Error: ${error.message}`);
+    }finally{
+      onClose();
     }
   };
 
   const handleSubmitRight = async (e) => {
     e.preventDefault();
   
-    // Check if a file is selected
     if (!file) {
       alert('Please select a file to upload.');
       return;
     }
   
-    // Create FormData object
     const formData = new FormData();
-    formData.append('file', file); // Append the file
+    formData.append('file', file);
   
     try {
-      // Send the request to the backend
       const response = await fetch(`${API_BASE_URL}/expenses/upload-csv`, {
         method: 'POST',
         body: formData,
@@ -88,6 +86,8 @@ const Popup = ({ onClose, userEmail }) => {
     } catch (error) {
       console.error('Error uploading file:', error);
       alert('An unexpected error occurred. Please try again.');
+    }finally{
+      onClose();
     }
   };
 

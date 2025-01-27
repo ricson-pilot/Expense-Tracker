@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import './Styles/IncomePopup.css'; // Add CSS for styling the popup
+import './Styles/IncomePopup.css';
 
 const IncomePopup = ({ onClose, onSubmit }) => {
   const [income, setIncome] = useState('');
 
   const handleSubmit = () => {
     if (income) {
-      onSubmit(income); // Pass the new income to the parent component
-      onClose(); // Close the popup
+      onSubmit(income);
+      onClose();
     } else {
       alert('Please enter a valid income.');
     }

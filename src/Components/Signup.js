@@ -9,7 +9,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [expenseLimit, setExpenseLimit] = useState(10000); // Default value
+  const [expenseLimit, setExpenseLimit] = useState(10000);
   const navigate = useNavigate();
 
   const handleSignup = async () => {
